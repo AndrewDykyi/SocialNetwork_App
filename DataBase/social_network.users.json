@@ -1,0 +1,44 @@
+[{
+  "_id": {
+    "$oid": "670bafced0a00aead56e452a"
+  },
+  "email": "email@example.com",
+  "password": "hashed_password",
+  "firstName": "John",
+  "lastName": "Doe",
+  "interests": [
+    "music",
+    "sports"
+  ],
+  "createdAt": {
+    "$date": "2024-09-23T10:00:00.000Z"
+  },
+  "friends": []
+},
+{
+  "_id": {
+    "$oid": "670bda080970d349be74ac84"
+  },
+  "email": "test2@gmail.com",
+  "password": "12345",
+  "firstName": "Test2",
+  "lastName": "2Test",
+  "interests": [
+    "cars",
+    " cycling"
+  ],
+  "friends": []
+},
+{
+  "_id": {
+    "$oid": "670bda2d0970d349be74ac86"
+  },
+  "email": "test3@gmail.com",
+  "password": "54321",
+  "firstName": "Test3",
+  "lastName": "3Test",
+  "interests": [
+    "skiing"
+  ],
+  "friends": []
+}]

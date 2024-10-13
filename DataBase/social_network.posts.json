@@ -1,0 +1,35 @@
+[{
+  "_id": {
+    "$oid": "670bdbdc78166ef1a79ab80b"
+  },
+  "title": null,
+  "content": "Swimming",
+  "userId": {
+    "$oid": "670bafced0a00aead56e452a"
+  },
+  "createdAt": {
+    "$date": "2024-10-13T14:40:28.413Z"
+  },
+  "comments": [
+    {
+      "_id": {
+        "$oid": "000000000000000000000000"
+      },
+      "userId": {
+        "$oid": "06f143e8410bcfc3d9a76beb"
+      },
+      "content": "Amazing",
+      "createdAt": {
+        "$date": "2024-10-13T14:47:53.744Z"
+      }
+    }
+  ],
+  "reactions": [
+    {
+      "userId": {
+        "$oid": "06f143e8410bcfc3d9a76beb"
+      },
+      "reactionType": "Like"
+    }
+  ]
+}]
