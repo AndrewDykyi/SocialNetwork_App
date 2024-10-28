@@ -5,6 +5,8 @@ namespace SocialNetwork_App.DAL.Interface
 {
     public interface IUserDal
     {
+        Task CreateUserAsync(UserDto user);
+        Task DeleteUserAsync(ObjectId id);
         Task<IEnumerable<UserDto>> GetAllAsync();
         Task<UserDto> GetByIdAsync(ObjectId id);
         Task InsertAsync(UserDto user);

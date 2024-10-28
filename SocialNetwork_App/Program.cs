@@ -15,9 +15,12 @@ class Program
 
         UserDal userDal = new UserDal(database);
         PostDal postDal = new PostDal(database);
-        CommentDal commentDal = new CommentDal(database);
+
+        var neo4JConnection = new Neo4JConnection("neo4j+s://728d20c8.databases.neo4j.io", "neo4j", "0G_eoDfGWO6bi7eh4OHFc2mvDSZz3NoFjEbBs_uK3Pk");
+        INeo4JUserDal neo4jUserDal = new Neo4JUserDal(neo4JConnection);
 
         bool isRunning = true;
+
 
         while (isRunning)
         {
@@ -28,25 +31,27 @@ class Program
             Console.WriteLine("4. Delete User");
             Console.WriteLine("5. Add Post");
             Console.WriteLine("6. Show All Posts");
-            Console.WriteLine("7. Add Comment");
-            Console.WriteLine("8. Show All Comments");
-            Console.WriteLine("9. Exit");
+            Console.WriteLine("7. Add Friendship");
+            Console.WriteLine("8. Delete Friendship");
+            Console.WriteLine("9. Check if Users are Connected");
+            Console.WriteLine("10. Get Distance Between Users");
+            Console.WriteLine("11. Exit");
             Console.Write("Choose an action: ");
             string choice = Console.ReadLine();
 
             switch (choice)
             {
                 case "1":
-                    await AddUser(userDal);
+                    await AddUser(userDal, neo4jUserDal);
                     break;
                 case "2":
                     await ShowAllUsers(userDal);
                     break;
                 case "3":
-                    await UpdateUser(userDal);
+                    await UpdateUser(userDal, neo4jUserDal);
                     break;
                 case "4":
-                    await DeleteUser(userDal);
+                    await DeleteUser(userDal, neo4jUserDal);
                     break;
                 case "5":
                     await AddPost(postDal);
@@ -54,13 +59,19 @@ class Program
                 case "6":
                     await ShowAllPosts(postDal);
                     break;
-                //case "7":
-                //    await AddComment(commentDal);
-                //    break;
-                //case "8":
-                //    await ShowAllComments(commentDal);
-                //    break;
+                case "7":
+                    await AddFriendship(neo4jUserDal);
+                    break;
+                case "8":
+                    await DeleteFriendship(neo4jUserDal);
+                    break;
                 case "9":
+                    await CheckIfUsersConnected(neo4jUserDal);
+                    break;
+                case "10":
+                    await GetDistanceBetweenUsers(neo4jUserDal);
+                    break;
+                case "11":
                     isRunning = false;
                     Console.WriteLine("Program terminated.");
                     break;
@@ -71,7 +82,7 @@ class Program
         }
     }
 
-    static async Task AddUser(IUserDal userDal)
+    static async Task AddUser(IUserDal userDal, INeo4JUserDal neo4jUserDal)
     {
         Console.Write("Enter Email: ");
         string email = Console.ReadLine();
@@ -100,20 +111,29 @@ class Program
         };
 
         await userDal.InsertAsync(newUser);
-        Console.WriteLine("User added successfully.");
-    }
+        Console.WriteLine("User added successfully to MongoDB.");
 
+        await neo4jUserDal.CreateUserAsync(newUser.Id.ToString(), newUser.FirstName);
+        Console.WriteLine("User added successfully to Neo4j.");
+    }
 
     static async Task ShowAllUsers(IUserDal userDal)
     {
         var users = await userDal.GetAllAsync();
-        foreach (var user in users)
+        if (users.Any())
         {
-            Console.WriteLine($"ID: {user.Id}, First Name: {user.FirstName}, Last Name: {user.LastName}, Email: {user.Email}");
+            foreach (var user in users)
+            {
+                Console.WriteLine($"ID: {user.Id}, First Name: {user.FirstName}, Last Name: {user.LastName}, Email: {user.Email}");
+            }
+        }
+        else
+        {
+            Console.WriteLine("No users found.");
         }
     }
 
-    static async Task UpdateUser(IUserDal userDal)
+    static async Task UpdateUser(IUserDal userDal, INeo4JUserDal neo4jUserDal)
     {
         Console.Write("Enter the ID of the user to update: ");
         string idString = Console.ReadLine();
@@ -150,6 +170,8 @@ class Program
         if (!string.IsNullOrWhiteSpace(newFirstName))
         {
             user.FirstName = newFirstName;
+            await neo4jUserDal.UpdateUserNameAsync(user.Id.ToString(), user.FirstName);
+            Console.WriteLine("User's name updated in Neo4j.");
         }
 
         Console.Write("Enter new Last Name (press Enter to keep unchanged): ");
@@ -167,10 +189,10 @@ class Program
         }
 
         await userDal.UpdateAsync(id, user);
-        Console.WriteLine("User updated successfully.");
+        Console.WriteLine("User updated successfully in MongoDB.");
     }
 
-    static async Task DeleteUser(IUserDal userDal)
+    static async Task DeleteUser(IUserDal userDal, INeo4JUserDal neo4jUserDal)
     {
         Console.Write("Enter the ID of the user to delete: ");
         string idString = Console.ReadLine();
@@ -182,10 +204,13 @@ class Program
         }
 
         await userDal.DeleteAsync(id);
-        Console.WriteLine("User deleted successfully.");
+        Console.WriteLine("User deleted successfully from MongoDB.");
+
+        await neo4jUserDal.DeleteUserAsync(id.ToString());
+        Console.WriteLine("User deleted successfully from Neo4j.");
     }
 
-    static async Task AddPost(PostDal postDal)
+    static async Task AddPost(IPostDal postDal)
     {
         Console.Write("Enter User ID: ");
         string userId = Console.ReadLine();
@@ -204,25 +229,80 @@ class Program
             Id = ObjectId.GenerateNewId(),
             UserId = parsedUserId,
             Content = content,
-            CreatedAt = DateTime.Now
+            CreatedAt = DateTime.UtcNow
         };
 
         await postDal.InsertAsync(newPost);
         Console.WriteLine("Post added successfully.");
     }
 
-
     static async Task ShowAllPosts(IPostDal postDal)
     {
         var posts = await postDal.GetAllAsync();
-        foreach (var post in posts)
+        if (posts.Any())
         {
-            Console.WriteLine($"ID: {post.Id}, User ID: {post.UserId}, Content: {post.Content}, Created At: {post.CreatedAt}");
+            foreach (var post in posts)
+            {
+                Console.WriteLine($"ID: {post.Id}, User ID: {post.UserId}, Content: {post.Content}, Created At: {post.CreatedAt}");
+            }
         }
-
-        if (!posts.Any())
+        else
         {
             Console.WriteLine("No posts to display.");
+        }
+    }
+
+    static async Task AddFriendship(INeo4JUserDal neo4jUserDal)
+    {
+        Console.Write("Enter User ID 1: ");
+        string userId1 = Console.ReadLine();
+
+        Console.Write("Enter User ID 2: ");
+        string userId2 = Console.ReadLine();
+
+        await neo4jUserDal.CreateRelationshipAsync(userId1, userId2, "FRIEND");
+        Console.WriteLine("Friendship added successfully in Neo4j.");
+    }
+
+    static async Task DeleteFriendship(INeo4JUserDal neo4jUserDal)
+    {
+        Console.Write("Enter User ID 1: ");
+        string userId1 = Console.ReadLine();
+
+        Console.Write("Enter User ID 2: ");
+        string userId2 = Console.ReadLine();
+
+        await neo4jUserDal.DeleteRelationshipAsync(userId1, userId2, "FRIEND");
+        Console.WriteLine("Friendship deleted successfully in Neo4j.");
+    }
+
+    static async Task CheckIfUsersConnected(INeo4JUserDal neo4jUserDal)
+    {
+        Console.Write("Enter User ID 1: ");
+        string userId1 = Console.ReadLine();
+
+        Console.Write("Enter User ID 2: ");
+        string userId2 = Console.ReadLine();
+
+        bool isConnected = await neo4jUserDal.AreUsersConnectedAsync(userId1, userId2);
+        Console.WriteLine(isConnected ? "Users are connected." : "Users are not connected.");
+    }
+    static async Task GetDistanceBetweenUsers(INeo4JUserDal neo4jUserDal)
+    {
+        Console.Write("Enter User ID 1: ");
+        string userId1 = Console.ReadLine();
+
+        Console.Write("Enter User ID 2: ");
+        string userId2 = Console.ReadLine();
+
+        int distance = await neo4jUserDal.GetDistanceBetweenUsersAsync(userId1, userId2);
+        if (distance != -1)
+        {
+            Console.WriteLine($"The distance between the users is: {distance}");
+        }
+        else
+        {
+            Console.WriteLine("The users are not connected.");
         }
     }
 }

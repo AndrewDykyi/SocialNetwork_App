@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="MongoDB.Bson" Version="2.29.0" />
+    <PackageReference Include="Neo4j.Driver" Version="5.25.0" />
+    <PackageReference Include="Neo4jClient" Version="5.1.17" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
 

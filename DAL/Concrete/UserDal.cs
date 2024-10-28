@@ -59,5 +59,15 @@ namespace SocialNetwork_App.DAL.Concrete
                 await _users.ReplaceOneAsync(u => u.Id == userId, user);
             }
         }
+
+        public async Task CreateUserAsync(UserDto user)
+        {
+            user.Id = ObjectId.GenerateNewId();
+            await _users.InsertOneAsync(user);
+        }
+        public async Task DeleteUserAsync(ObjectId id)
+        {
+            await _users.DeleteOneAsync(user => user.Id == id);
+        }
     }
 }
