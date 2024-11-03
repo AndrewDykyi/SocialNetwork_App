@@ -9,10 +9,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Images\iphone.png" />
-  </ItemGroup>
-
-  <ItemGroup>
     <PackageReference Include="Neo4j.Driver" Version="5.25.0" />
     <PackageReference Include="Neo4jClient" Version="5.1.17" />
   </ItemGroup>
@@ -20,10 +16,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj" />
     <ProjectReference Include="..\DTO\DTO.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Resource Include="Images\iphone.png" />
+    <ProjectReference Include="..\SocialNetwork_Services\SocialNetwork_Services.csproj" />
   </ItemGroup>
 
 </Project>

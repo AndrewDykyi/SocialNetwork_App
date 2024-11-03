@@ -1,4 +1,5 @@
 ﻿using MongoDB.Bson;
+using SocialNetwork_App.DAL.Concrete;
 using SocialNetwork_App.DAL.Interface;
 using SocialNetwork_App.DTO;
 
@@ -22,6 +23,10 @@ public class UserService
         string firstName = user.FirstName ?? "Unnamed";
 
         await _neo4JUserDal.CreateUserAsync(user.Id.ToString(), firstName);
+    }
+    public async Task<UserDto> GetByIdAsync(ObjectId userId)
+    {
+        return await _mongoUserDal.GetByIdAsync(userId);
     }
 
     public async Task DeleteUserAsync(string userId)

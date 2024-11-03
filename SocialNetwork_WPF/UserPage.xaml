@@ -1,0 +1,19 @@
+﻿<Window x:Class="SocialNetwork_WPF.UserPage"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="User Posts" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <TextBlock Text="Ваші пости" FontSize="24" Margin="10" />
+            <ListBox x:Name="PostsListBox" Margin="10" SelectionChanged="PostsListBox_SelectionChanged" />
+
+            <Button Content="Переглянути інші пости" Click="ViewOtherPostsButton_Click" Margin="10" />
+
+            <TextBlock Text="Коментар" Margin="10" />
+            <TextBox x:Name="CommentTextBox" Margin="10" Height="50" />
+            <Button Content="Додати коментар" Click="AddCommentButton_Click" Margin="10" IsEnabled="False" />
+
+            <Button Content="Лайкнути" Click="LikeButton_Click" Margin="10" IsEnabled="False" />
+        </StackPanel>
+    </Grid>
+</Window>
