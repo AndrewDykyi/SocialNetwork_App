@@ -11,7 +11,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{B
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork_WPF", "SocialNetwork_WPF\SocialNetwork_WPF.csproj", "{385BFD32-7CFF-40C8-B9F3-C0B880D7BD8C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SocialNetwork_Services", "SocialNetwork_Services\SocialNetwork_Services.csproj", "{5B58E38E-88A2-4F99-8E6C-19CD88553A21}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SocialNetwork_Services", "SocialNetwork_Services\SocialNetwork_Services.csproj", "{5B58E38E-88A2-4F99-8E6C-19CD88553A21}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDB.DAL", "DynamoDB.DAL\DynamoDB.DAL.csproj", "{500E9FEC-1304-487F-82F1-36C5507FDB91}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDB.DTO", "DynamoDB.DTO\DynamoDB.DTO.csproj", "{0764795C-2FF7-45FC-AFAE-A21D27B62CAA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DynamoDB.BLL", "DynamoDB.BLL\DynamoDB.BLL.csproj", "{7467053D-4DB8-4ED5-A45A-1E46CB9FB151}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +45,18 @@ Global
 		{5B58E38E-88A2-4F99-8E6C-19CD88553A21}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5B58E38E-88A2-4F99-8E6C-19CD88553A21}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5B58E38E-88A2-4F99-8E6C-19CD88553A21}.Release|Any CPU.Build.0 = Release|Any CPU
+		{500E9FEC-1304-487F-82F1-36C5507FDB91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{500E9FEC-1304-487F-82F1-36C5507FDB91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{500E9FEC-1304-487F-82F1-36C5507FDB91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{500E9FEC-1304-487F-82F1-36C5507FDB91}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0764795C-2FF7-45FC-AFAE-A21D27B62CAA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0764795C-2FF7-45FC-AFAE-A21D27B62CAA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0764795C-2FF7-45FC-AFAE-A21D27B62CAA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0764795C-2FF7-45FC-AFAE-A21D27B62CAA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7467053D-4DB8-4ED5-A45A-1E46CB9FB151}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7467053D-4DB8-4ED5-A45A-1E46CB9FB151}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7467053D-4DB8-4ED5-A45A-1E46CB9FB151}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7467053D-4DB8-4ED5-A45A-1E46CB9FB151}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

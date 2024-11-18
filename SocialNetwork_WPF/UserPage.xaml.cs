@@ -1,7 +1,6 @@
 ﻿using MongoDB.Bson;
 using SocialNetwork_App.DAL.Interface;
 using SocialNetwork_App.DTO;
-using System.Collections.Generic;
 using System.Windows;
 
 namespace SocialNetwork_WPF
